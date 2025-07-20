@@ -43,7 +43,7 @@ cat > build/meta.json << EOF
   "name": "UHD Tagger",
   "description": "Automatically detect and tag 4K/UHD movies and TV shows with visual overlays on poster images",
   "overview": "The UHD Tagger plugin automatically identifies 4K/UHD content in your Jellyfin library and adds visual badges to poster images, making it easy to distinguish between different quality versions of your media.",
-  "owner": "yourusername",
+  "owner": "michaelrobgrove",
   "category": "Metadata",
   "version": "${VERSION_NUM}.0",
   "changelog": "Version ${VERSION_NUM} - Automatic 4K detection and image overlay generation",
@@ -73,7 +73,7 @@ if [ $? -eq 0 ]; then
     cd ..
     
     # Update manifest.json with proper checksum and download URL
-    REPO_URL="https://github.com/yourusername/jellyfin-uhd-tagger"  # Update this!
+    REPO_URL="https://github.com/michaelrobgrove/jellyfin-uhd-tagger"  # Update this!
     cat > manifest.json << EOF
 [
   {
@@ -81,7 +81,7 @@ if [ $? -eq 0 ]; then
     "name": "UHD Tagger",
     "description": "Automatically detect and tag 4K/UHD movies and TV shows with visual overlays on poster images",
     "overview": "The UHD Tagger plugin automatically identifies 4K/UHD content in your Jellyfin library and adds visual badges to poster images, making it easy to distinguish between different quality versions of your media.",
-    "owner": "yourusername",
+    "owner": "michaelrobgrove",
     "category": "Metadata",
     "imageUrl": "${REPO_URL}/raw/main/images/logo.png",
     "versions": [
