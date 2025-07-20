@@ -4,7 +4,7 @@
     "name": "UHD Tagger",
     "description": "Automatically detect and tag 4K/UHD movies and TV shows with visual overlays on poster images",
     "overview": "The UHD Tagger plugin automatically identifies 4K/UHD content in your Jellyfin library and adds visual badges to poster images, making it easy to distinguish between different quality versions of your media.",
-    "owner": "yourusername",
+    "owner": "michaelrobgrove",
     "category": "Metadata",
     "imageUrl": "https://raw.githubusercontent.com/michaelrobgrove/jellyfin-uhd-tagger/main/images/logo.png",
     "versions": [
