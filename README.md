@@ -2,6 +2,9 @@
 
 Automatically detect and tag 4K/UHD movies and TV shows in Jellyfin with visual overlays on poster images.
 
+[![Build Status](https://github.com/yourusername/jellyfin-uhd-tagger/workflows/Build%20Plugin/badge.svg)](https://github.com/yourusername/jellyfin-uhd-tagger/actions)
+[![GitHub release](https://img.shields.io/github/release/yourusername/jellyfin-uhd-tagger.svg)](https://github.com/yourusername/jellyfin-uhd-tagger/releases)
+
 ## Features
 
 - 🎯 **Automatic Detection**: Detects 4K content based on resolution and filename patterns
@@ -9,55 +12,30 @@ Automatically detect and tag 4K/UHD movies and TV shows in Jellyfin with visual 
 - 🖼️ **Image Overlays**: Creates badged poster images with 4K overlay
 - ⚙️ **Configurable**: Customizable badge text, detection settings, and behavior
 - 🚀 **Real-time**: Processes new content automatically as it's added
-
-## Detection Methods
-
-The plugin identifies 4K content using multiple methods:
-
-1. **Video Resolution**: Checks if width ≥ 3840px or height ≥ 2160px
-2. **Filename Patterns**: Looks for keywords like "4K", "UHD", "2160p", etc.
-3. **Metadata Analysis**: Examines video stream properties
+- 📦 **Easy Install**: Install directly from Jellyfin plugin catalog
 
 ## Installation
 
-### Option 1: Quick Install (Recommended)
+### Method 1: Plugin Catalog (Recommended)
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/jellyfin-uhd-tagger.git
-cd jellyfin-uhd-tagger
+1. Open Jellyfin admin dashboard
+2. Go to **Dashboard** > **Plugins** > **Repositories**
+3. Add a new repository:
+   - **Repository Name**: UHD Tagger
+   - **Repository URL**: `https://raw.githubusercontent.com/yourusername/jellyfin-uhd-tagger/main/manifest.json`
+4. Go to **Dashboard** > **Plugins** > **Catalog**
+5. Find "UHD Tagger" and click **Install**
+6. Restart Jellyfin when prompted
 
-# Make scripts executable
-chmod +x build.sh install.sh
+### Method 2: Manual Installation
 
-# Build and install
-./build.sh
-sudo ./install.sh
-```
-
-### Option 2: Manual Installation
-
-1. **Install .NET 8 SDK** (if not already installed):
-```bash
-wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo apt-get update
-sudo apt-get install -y dotnet-sdk-8.0
-```
-
-2. **Build the plugin**:
-```bash
-dotnet build --configuration Release
-```
-
-3. **Install manually**:
-```bash
-sudo systemctl stop jellyfin
-sudo mkdir -p /var/lib/jellyfin/plugins/UHDTagger
-sudo cp -r bin/Release/net8.0/* /var/lib/jellyfin/plugins/UHDTagger/
-sudo chown -R jellyfin:jellyfin /var/lib/jellyfin/plugins/UHDTagger
-sudo systemctl start jellyfin
-```
+1. Download the latest `Jellyfin.Plugin.UHDTagger.zip` from [Releases](https://github.com/yourusername/jellyfin-uhd-tagger/releases)
+2. Extract to your Jellyfin plugins directory:
+   ```bash
+   sudo unzip Jellyfin.Plugin.UHDTagger.zip -d /var/lib/jellyfin/plugins/UHDTagger/
+   sudo chown -R jellyfin:jellyfin /var/lib/jellyfin/plugins/UHDTagger/
+   sudo systemctl restart jellyfin
+   ```
 
 ## Configuration
 
