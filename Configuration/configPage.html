@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>UHD Tagger Configuration</title>
+</head>
+<body>
+    <div id="UHDTaggerConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-checkbox,emby-select">
+        <div data-role="content">
+            <div class="content-primary">
+                <form id="UHDTaggerConfigForm">
+                    <div class="sectionTitleContainer flex align-items-center">
+                        <h2 class="sectionTitle">UHD Tagger Settings</h2>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input type="checkbox" is="emby-checkbox" id="EnableAutoTagging" />
+                            <span>Enable Automatic Tagging</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">
+                            Automatically detect and tag 4K/UHD content as it's added to your library
+                        </div>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input type="checkbox" is="emby-checkbox" id="AddMetadataTags" />
+                            <span>Add Metadata Tags</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">
+                            Add "4K" and "UHD" tags to the metadata of detected content
+                        </div>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input type="checkbox" is="emby-checkbox" id="CreateImageOverlays" />
+                            <span>Create Image Overlays</span>
+                        </label>
+                        <div class="fieldDescription checkboxFieldDescription">
+                            Generate poster images with 4K badges overlaid on the original artwork
+                        </div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="BadgeText">Badge Text</label>
+                        <input is="emby-input" type="text" id="BadgeText" label="Badge Text" />
+                        <div class="fieldDescription">
+                            Text to display on the badge overlay (e.g., "4K", "UHD", "Ultra HD")
+                        </div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="MinWidth4K">Minimum Width for 4K</label>
+                        <input is="emby-input" type="number" id="MinWidth4K" label="Minimum Width for 4K" />
+                        <div class="fieldDescription">
+                            Minimum video width in pixels to be considered 4K content (default: 3840)
+                        </div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="MinHeight4K">Minimum Height for 4K</label>
+                        <input is="emby-input" type="number" id="MinHeight4K" label="Minimum Height for 4K" />
+                        <div class="fieldDescription">
+                            Minimum video height in pixels to be considered 4K content (default: 2160)
+                        </div>
+                    </div>
+
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            (function () {
+                var pluginId = "12345678-1234-5678-9012-123456789012";
+
+                document.getElementById('UHDTaggerConfigPage').addEventListener('pageshow', function () {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                        document.getElementById('EnableAutoTagging').checked = config.EnableAutoTagging || false;
+                        document.getElementById('AddMetadataTags').checked = config.AddMetadataTags || false;
+                        document.getElementById('CreateImageOverlays').checked = config.CreateImageOverlays || false;
+                        document.getElementById('BadgeText').value = config.BadgeText || '4K';
+                        document.getElementById('MinWidth4K').value = config.MinWidth4K || 3840;
+                        document.getElementById('MinHeight4K').value = config.MinHeight4K || 2160;
+                        Dashboard.hideLoadingMsg();
+                    });
+                });
+
+                document.getElementById('UHDTaggerConfigForm').addEventListener('submit', function (e) {
+                    Dashboard.showLoadingMsg();
+                    e.preventDefault();
+
+                    ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                        config.EnableAutoTagging = document.getElementById('EnableAutoTagging').checked;
+                        config.AddMetadataTags = document.getElementById('AddMetadataTags').checked;
+                        config.CreateImageOverlays = document.getElementById('CreateImageOverlays').checked;
+                        config.BadgeText = document.getElementById('BadgeText').value;
+                        config.MinWidth4K = parseInt(document.getElementById('MinWidth4K').value) || 3840;
+                        config.MinHeight4K = parseInt(document.getElementById('MinHeight4K').value) || 2160;
+
+                        ApiClient.updatePluginConfiguration(pluginId, config).then(function (result) {
+                            Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
+                    });
+
+                    return false;
+                });
+            })();
+        </script>
+    </div>
+</body>
+</html>
