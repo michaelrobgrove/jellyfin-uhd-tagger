@@ -22,7 +22,7 @@ Automatically detect and tag 4K/UHD movies and TV shows in Jellyfin with visual 
 2. Go to **Dashboard** > **Plugins** > **Repositories**
 3. Add a new repository:
    - **Repository Name**: UHD Tagger
-   - **Repository URL**: `https://raw.githubusercontent.com/yourusername/jellyfin-uhd-tagger/main/manifest.json`
+   - **Repository URL**: `https://raw.githubusercontent.com/michaelrobgrove/jellyfin-uhd-tagger/main/manifest.json`
 4. Go to **Dashboard** > **Plugins** > **Catalog**
 5. Find "UHD Tagger" and click **Install**
 6. Restart Jellyfin when prompted
