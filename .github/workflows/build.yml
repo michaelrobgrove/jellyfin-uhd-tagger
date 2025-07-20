@@ -1,0 +1,62 @@
+name: Build Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+      
+    - name: Create plugin zip
+      run: |
+        mkdir -p dist
+        cd bin/Release/net8.0
+        zip -r ../../../dist/Jellyfin.Plugin.UHDTagger.zip .
+        
+    - name: Calculate checksum
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        cd dist
+        sha256sum Jellyfin.Plugin.UHDTagger.zip > checksum.txt
+        echo "CHECKSUM=$(sha256sum Jellyfin.Plugin.UHDTagger.zip | cut -d' ' -f1)" >> $GITHUB_ENV
+        
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/Jellyfin.Plugin.UHDTagger.zip
+          dist/checksum.txt
+        body: |
+          ## Changes
+          - Automatic 4K/UHD content detection
+          - Image overlay generation with badges
+          - Configurable plugin settings
+          
+          ## Installation
+          1. Add plugin repository: `https://raw.githubusercontent.com/${{ github.repository }}/main/manifest.json`
+          2. Install from Jellyfin Dashboard > Plugins > Catalog
+          
+          ## Checksum
+          SHA256: ${{ env.CHECKSUM }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
